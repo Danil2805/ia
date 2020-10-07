@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Vector;
 
+import javax.swing.DefaultButtonModel;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -58,7 +59,8 @@ public class CatalogTab extends JPanel {
 		JComboBox status = new JComboBox();
 		status.setModel(new DefaultComboBoxModel(new String[] {"Available", "In use"}));
 
-
+		JButton info = new JButton("Info");
+		info.setModel(new DefaultButtonModel());
 
 		JButton removeBtn = new JButton("Remove row");
 		removeBtn.addActionListener(new ActionListener() {
@@ -114,6 +116,7 @@ public class CatalogTab extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				model.toggleEditing();
 				table.getColumnModel().getColumn(8).setCellEditor(new DefaultCellEditor(status));
+				table.getColumnModel().getColumn(9);
 				boolean enbl =! editBtn.isSelected();
 				System.out.println(enbl);
 				addBtn.setEnabled(enbl);
@@ -149,5 +152,5 @@ public class CatalogTab extends JPanel {
 		profitLbl.setText("Cars available: " + sumCol);
 	}
 
-	
+
 }

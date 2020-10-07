@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.SpinnerNumberModel;
 
 public class Tab2 extends JPanel {
 	private Tabledata tabledata;
@@ -56,7 +57,8 @@ public class Tab2 extends JPanel {
 		JLabel pricepermin = new JLabel("Price per minute:");
 		layout(pricepermin, 480, 100);
 
-		JSpinner priceInput = new JSpinner();
+		SpinnerNumberModel decimalmodel = new SpinnerNumberModel(0, 0, 1000, 0.01);
+		JSpinner priceInput = new JSpinner(decimalmodel);
 		inputlayout(priceInput, 640, 100);
 
 		JLabel fuel = new JLabel("Fuel:");
@@ -120,8 +122,8 @@ public class Tab2 extends JPanel {
 						|| modelInput.getText().equals("") 
 						|| priceInput.getValue().toString().equals("") 
 						|| fuelInput.getValue().toString().equals("") || mileageInput.getValue().toString().equals("")
-						 || hasLetter(priceInput.getValue().toString()) || hasLetter(fuelInput.getValue().toString()) 
-						 || hasLetter(mileageInput.getValue().toString())) {
+						|| hasLetter(priceInput.getValue().toString()) || hasLetter(fuelInput.getValue().toString()) 
+						|| hasLetter(mileageInput.getValue().toString())) {
 					JOptionPane.showMessageDialog(null,"Invalid Input", "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
 					String brand = brandInput.getText();

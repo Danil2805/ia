@@ -36,12 +36,13 @@ public class Main {
 		JFrame frame = new JFrame();
 		frame.setSize(1280, 720);
 		frame.setTitle("Car sharing management app");
+		Object[] options = { "Exit", "Cancel" };
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		frame.setContentPane(tabbedPane);
-		
+
 		Tabledata data = new Tabledata();
 		tabbedPane.addTab("Table", null, new CatalogTab(data, tabbedPane), null);
 		tabbedPane.add(new Tab2(data, tabbedPane), "Add item tab");

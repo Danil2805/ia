@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Vector;
 
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -24,25 +25,25 @@ public class Tabledata extends DefaultTableModel {
 			"License Plate",
 			"Owner",
 			"Status",
-			"Current user" };
+	"More info" };
 	private boolean isEditable = false;
-	
+
 	Tabledata(){
 		super(tableHeadings, 0);
 	}
-	
+
 	public void setDataVector(Object[][] data) {
 		super.setDataVector(data, tableHeadings);
 	}
-	
+
 	public void addItem(String brand, String model, 
 			String year, double price, double fuel, double mileage, 
 			String plate, String owner, String status, String user) {
 		addRow(new Object[] {
-			brand, model, year, price, fuel, mileage, plate,  
-			owner, status, user});
+				brand, model, year, price, fuel, mileage, plate,  
+				owner, status, user});
 	}
-	
+
 	public void saveData(String filename, Tabledata model) {
 		Gson gson = new Gson();
 		Vector dataVector = model.getDataVector();
@@ -55,7 +56,7 @@ public class Tabledata extends DefaultTableModel {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void loadData(String filename, Tabledata model) {
 		Path path = Paths.get(filename);
 		try {
@@ -70,7 +71,7 @@ public class Tabledata extends DefaultTableModel {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void saveLocation(String filename, String savelocation) {
 		Gson gson = new Gson();
 
@@ -81,14 +82,14 @@ public class Tabledata extends DefaultTableModel {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public boolean isCellEditable(int row, int column) {
 		return isEditable;
 	}
 	public void toggleEditing() {
 		isEditable =! isEditable;
 	}
-	
+
 	public void deleteSelectedRow(Tabledata model, JTable table) {  
 		int getSelectedRowForDeletion = table.getSelectedRow();
 		if (getSelectedRowForDeletion >= 0) {
