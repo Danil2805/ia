@@ -59,9 +59,6 @@ public class CatalogTab extends JPanel {
 		JComboBox status = new JComboBox();
 		status.setModel(new DefaultComboBoxModel(new String[] {"Available", "In use"}));
 
-		JButton info = new JButton("Info");
-		info.setModel(new DefaultButtonModel());
-
 		JButton removeBtn = new JButton("Remove row");
 		removeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -92,20 +89,7 @@ public class CatalogTab extends JPanel {
 		JButton saveBtn = new JButton("Save");
 		saveBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Path savePath = Paths.get("\\\\NAEWAWWLIFIL01\\Students\\Danilo_kirchatyy\\Documents\\all school files\\Yr13CompSci\\CS IA\\saving.json");
-				String savePath1;
-				try {
-					savePath1 = new String(Files.readAllBytes(savePath));
-					System.out.println(savePath1);
-					if(savePath1.equals("")) {
-						String savelocation = JOptionPane.showInputDialog(null, "Specify save location", null);
-						data.saveLocation("\\\\NAEWAWWLIFIL01\\Students\\Danilo_kirchatyy\\Documents\\all school files\\Yr13CompSci\\CS IA\\saving.json", savelocation);
-					} else {
-						data.saveData(savePath1, model);
-					}
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				Data.saveData("C:\\\\Users\\\\danil\\\\Documents\\\\!school\\\\CS IA\\\\saving.json");
 			}
 		});
 		saveBtn.setBounds(10, 618, 90, 25);
@@ -127,15 +111,15 @@ public class CatalogTab extends JPanel {
 		editBtn.setBounds(1023, 10, 100, 25);
 		add(editBtn);
 
-		Path savePath = Paths.get("\\\\NAEWAWWLIFIL01\\Students\\Danilo_kirchatyy\\Documents\\all school files\\Yr13CompSci\\CS IA\\saving.json");
+		Path savePath = Paths.get("C:\\\\Users\\\\danil\\\\Documents\\\\!school\\\\CS IA\\\\saving.json");
 		String savePath1;
-		try {
-			savePath1 = new String(Files.readAllBytes(savePath));
-			System.out.println(savePath1);
-			data.loadData(savePath1, model);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		//try {
+		//	savePath1 = new String(Files.readAllBytes(savePath));
+		//	System.out.println(savePath1);
+		Data.loadData("C:\\\\Users\\\\danil\\\\Documents\\\\!school\\\\CS IA\\\\saving.json");
+		//} catch (IOException e1) {
+		//	e1.printStackTrace();
+		//}
 	}
 
 	void refreshData() {

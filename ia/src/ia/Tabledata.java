@@ -25,7 +25,7 @@ public class Tabledata extends DefaultTableModel {
 			"License Plate",
 			"Owner",
 			"Status",
-	"More info" };
+	};
 	private boolean isEditable = false;
 
 	Tabledata(){
@@ -36,51 +36,10 @@ public class Tabledata extends DefaultTableModel {
 		super.setDataVector(data, tableHeadings);
 	}
 
-	public void addItem(String brand, String model, 
-			String year, double price, double fuel, double mileage, 
-			String plate, String owner, String status, String user) {
+	public void addItem(Vehicle v) {
 		addRow(new Object[] {
-				brand, model, year, price, fuel, mileage, plate,  
-				owner, status, user});
-	}
-
-	public void saveData(String filename, Tabledata model) {
-		Gson gson = new Gson();
-		Vector dataVector = model.getDataVector();
-		String textData = gson.toJson(dataVector);
-
-		Path path = Paths.get(filename);
-		try {
-			Files.write(path,textData.getBytes());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void loadData(String filename, Tabledata model) {
-		Path path = Paths.get(filename);
-		try {
-			String textData = new String(Files.readAllBytes(path));
-			System.out.println(textData);
-
-			Gson gson = new Gson();
-			Object[][] tableData = gson.fromJson(textData, Object[][].class);
-			model.setDataVector(tableData);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void saveLocation(String filename, String savelocation) {
-		Gson gson = new Gson();
-
-		Path path = Paths.get(filename);
-		try {
-			Files.write(path,savelocation.getBytes());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+				v.getBrand(), v.getModel(), v.getYear(), v.getPrice(), v.getFuel(), v.getMileage(), v.getPlate(),  
+				v.getOwner(), v.getStatus(), v.getUser()});
 	}
 
 	public boolean isCellEditable(int row, int column) {

@@ -46,5 +46,7 @@ public class Main {
 		Tabledata data = new Tabledata();
 		tabbedPane.addTab("Table", null, new CatalogTab(data, tabbedPane), null);
 		tabbedPane.add(new Tab2(data, tabbedPane), "Add item tab");
+		tabbedPane.add(new UrlTab(), "Distance tab");
+		
 	}
 }

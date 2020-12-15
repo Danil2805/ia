@@ -126,17 +126,19 @@ public class Tab2 extends JPanel {
 						|| hasLetter(mileageInput.getValue().toString())) {
 					JOptionPane.showMessageDialog(null,"Invalid Input", "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
-					String brand = brandInput.getText();
-					String model = modelInput.getText();
-					String year = yearInput.getSelectedItem().toString();
-					double price = Double.parseDouble(priceInput.getValue().toString());
-					double fuel = Double.parseDouble(fuelInput.getValue().toString());
-					double mileage = Double.parseDouble(mileageInput.getValue().toString());
-					String plates = platesInput.getText();
-					String owner = ownerInput.getText();
-					String status = (String)statusInput.getSelectedItem();
-					String user = userInput.getText();
-					tabledata.addItem(brand, model, year, price, fuel, mileage, plates, owner, status, user);
+					Vehicle v = new Vehicle();
+					v.setBrand(brandInput.getText());
+					v.setModel(modelInput.getText());
+					v.setYear(yearInput.getSelectedItem().toString());
+					v.setPrice(Double.parseDouble(priceInput.getValue().toString()));
+					v.setFuel(Double.parseDouble(fuelInput.getValue().toString()));
+					v.setMileage(Double.parseDouble(mileageInput.getValue().toString()));
+					v.setPlate(platesInput.getText());
+					v.setOwner(ownerInput.getText());
+					v.setStatus((String)statusInput.getSelectedItem());
+					v.setUser(userInput.getText());
+					Data.addVehicle(v);
+					//tabledata.addItem(v);
 					brandInput.setText("");
 					modelInput.setText("");
 					yearInput.setSelectedIndex(0);
