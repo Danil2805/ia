@@ -16,6 +16,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,20 +25,24 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.text.JTextComponent;
 
 import com.google.gson.Gson;
 
 public class CatalogTab extends JPanel {
 	private JTable table;
-	private Tabledata model;
+	private Tabledata tabledata;
 	private JLabel storedLbl;
-	JLabel profitLbl;
+	JLabel availableLbl;
 
-	CatalogTab(Tabledata data, JTabbedPane tabbedPane) {
-		this.model = data;
-		data.addTableModelListener(new TableModelListener() {
+	CatalogTab(Tabledata tabledata, JTabbedPane tabbedPane) {
+		Data.loadData("C:\\\\Users\\\\danil\\\\Documents\\\\!school\\\\CS IA\\\\saving.json");
+		this.tabledata = tabledata;
+		tabledata.addTableModelListener(new TableModelListener() {
 			@Override
 			public void tableChanged(TableModelEvent e) {
 				refreshData();
@@ -46,7 +51,7 @@ public class CatalogTab extends JPanel {
 		this.setBorder(new EmptyBorder(0, 0, 0, 0));
 		this.setLayout(null);
 		this.setBackground(new Color(76, 146, 212));
-
+		
 		JButton addBtn = new JButton("New Car");
 		addBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -62,7 +67,9 @@ public class CatalogTab extends JPanel {
 		JButton removeBtn = new JButton("Remove row");
 		removeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				data.deleteSelectedRow(model, table);
+				Vehicle v = Data.getVehicle(table.getSelectedRow());
+				Data.removeVehicle(v);
+				tabledata.fireTableDataChanged();
 			}
 		});
 		removeBtn.setBounds(1128, 10, 120, 25);
@@ -74,17 +81,12 @@ public class CatalogTab extends JPanel {
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		table.setModel(model);
+		table.setModel(tabledata);
 
-		storedLbl = new JLabel();
+		storedLbl = new JLabel("Cars being shared: " + table.getRowCount());
 		storedLbl.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
 		storedLbl.setBounds(115, 619, 200, 23);
 		this.add(storedLbl);
-
-		profitLbl = new JLabel("");
-		profitLbl.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
-		profitLbl.setBounds(715, 619, 160, 23);
-		this.add(profitLbl);
 
 		JButton saveBtn = new JButton("Save");
 		saveBtn.addActionListener(new ActionListener() {
@@ -94,32 +96,41 @@ public class CatalogTab extends JPanel {
 		});
 		saveBtn.setBounds(10, 618, 90, 25);
 		this.add(saveBtn);
-
-		JToggleButton editBtn = new JToggleButton("Edit table");
-		editBtn.addActionListener(new ActionListener() {
+		
+		JButton locBtn = new JButton("Locate Selected Vehicle");
+		locBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.toggleEditing();
-				table.getColumnModel().getColumn(8).setCellEditor(new DefaultCellEditor(status));
-				table.getColumnModel().getColumn(9);
-				boolean enbl =! editBtn.isSelected();
-				System.out.println(enbl);
-				addBtn.setEnabled(enbl);
-				saveBtn.setEnabled(enbl);
-				removeBtn.setEnabled(enbl);
+				tabbedPane.setSelectedIndex(2);
+				Data.setSelectedVehicle(table);
+				UrlTab.location.setText(Data.getSelectedVehicle().getLocation());
 			}
 		});
-		editBtn.setBounds(1023, 10, 100, 25);
-		add(editBtn);
+		locBtn.setBounds(120, 10, 180, 25);
+		this.add(locBtn);
+		
+		JButton about = new JButton("About");
+		about.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Made by Danylo Kirchatyi, Created on 07/01/2021, Version 1.0",
+						"About", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		about.setBounds(1181, 618, 69, 23);
+		add(about);
 
-		Path savePath = Paths.get("C:\\\\Users\\\\danil\\\\Documents\\\\!school\\\\CS IA\\\\saving.json");
-		String savePath1;
-		//try {
-		//	savePath1 = new String(Files.readAllBytes(savePath));
-		//	System.out.println(savePath1);
-		Data.loadData("C:\\\\Users\\\\danil\\\\Documents\\\\!school\\\\CS IA\\\\saving.json");
-		//} catch (IOException e1) {
-		//	e1.printStackTrace();
-		//}
+		int sumCol = 0;
+		int j = 0;
+		while(j<table.getRowCount()) {
+			if(table.getValueAt(j,8).equals("Available")) {
+				sumCol+=1;
+			}
+			j+=1;
+		}
+		availableLbl = new JLabel("Cars available: " + sumCol );
+		availableLbl.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
+		availableLbl.setBounds(715, 619, 160, 23);
+		this.add(availableLbl);
+		
 	}
 
 	void refreshData() {
@@ -133,7 +144,7 @@ public class CatalogTab extends JPanel {
 			}
 			j+=1;
 		}
-		profitLbl.setText("Cars available: " + sumCol);
+		availableLbl.setText("Cars available: " + sumCol);
 	}
 
 

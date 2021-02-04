@@ -36,7 +36,6 @@ public class Main {
 		JFrame frame = new JFrame();
 		frame.setSize(1280, 720);
 		frame.setTitle("Car sharing management app");
-		Object[] options = { "Exit", "Cancel" };
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 
@@ -44,9 +43,9 @@ public class Main {
 		frame.setContentPane(tabbedPane);
 
 		Tabledata data = new Tabledata();
-		tabbedPane.addTab("Table", null, new CatalogTab(data, tabbedPane), null);
-		tabbedPane.add(new Tab2(data, tabbedPane), "Add item tab");
-		tabbedPane.add(new UrlTab(), "Distance tab");
+		tabbedPane.add(new CatalogTab(data, tabbedPane), "Table");
+		tabbedPane.add(new AddTab(data, tabbedPane), "Add item tab");
+		tabbedPane.add(new UrlTab(tabbedPane), "Distance tab");
 		
 	}
 }

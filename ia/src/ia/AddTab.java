@@ -8,9 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
+import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,13 +21,14 @@ import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.text.JTextComponent;
 
-public class Tab2 extends JPanel {
+public class AddTab extends JPanel {
 	private Tabledata tabledata;
 
 	DecimalFormat df = new DecimalFormat("###.##");
 
-	Tab2(Tabledata tabledata, JTabbedPane tabbedPane) {
+	AddTab(Tabledata tabledata, JTabbedPane tabbedPane) {
 		this.tabledata = tabledata;
 		Main main = new Main();
 		setLayout(null);
@@ -101,6 +104,12 @@ public class Tab2 extends JPanel {
 
 		user.setVisible(false);
 		userInput.setVisible(false);
+		
+		JLabel location = new JLabel("Current Location:");
+		layout(location, 480, 310);
+
+		JTextArea locInput = new JTextArea();
+		inputlayout(locInput, 640, 310);
 
 		statusInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -110,7 +119,6 @@ public class Tab2 extends JPanel {
 				} else {
 					user.setVisible(false);
 					userInput.setVisible(false);
-
 				}
 			}
 		});
@@ -119,7 +127,7 @@ public class Tab2 extends JPanel {
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
 				if(brandInput.getText().equals("") 
-						|| modelInput.getText().equals("") 
+						|| modelInput.getText().equals("") || ((String)statusInput.getSelectedItem()).equals("")
 						|| priceInput.getValue().toString().equals("") 
 						|| fuelInput.getValue().toString().equals("") || mileageInput.getValue().toString().equals("")
 						|| hasLetter(priceInput.getValue().toString()) || hasLetter(fuelInput.getValue().toString()) 
@@ -137,8 +145,9 @@ public class Tab2 extends JPanel {
 					v.setOwner(ownerInput.getText());
 					v.setStatus((String)statusInput.getSelectedItem());
 					v.setUser(userInput.getText());
+					v.setLocation(locInput.getText());
 					Data.addVehicle(v);
-					//tabledata.addItem(v);
+					tabledata.fireTableDataChanged();
 					brandInput.setText("");
 					modelInput.setText("");
 					yearInput.setSelectedIndex(0);
@@ -149,6 +158,7 @@ public class Tab2 extends JPanel {
 					ownerInput.setText("");
 					statusInput.setSelectedIndex(0);
 					userInput.setText("");
+					locInput.setText("");
 				}
 			}
 		});
@@ -161,7 +171,7 @@ public class Tab2 extends JPanel {
 				tabbedPane.setSelectedIndex(0);
 				brandInput.setText("");
 				modelInput.setText("");
-				yearInput.setSelectedIndex(50);
+				yearInput.setSelectedIndex(0);
 				priceInput.setToolTipText("");
 				fuelInput.setToolTipText("");
 				mileageInput.setToolTipText("");
@@ -174,6 +184,8 @@ public class Tab2 extends JPanel {
 		returnButton.setBounds(590, 375, 100, 25);
 		add(returnButton);
 	}
+	
+	
 
 	void layout(Component component, int xLocation, int yLocation) {
 		component.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
@@ -191,15 +203,11 @@ public class Tab2 extends JPanel {
 	//Melih Altintas from https://stackoverflow.com/questions/18590901/check-if-a-string-contains-numbers-java
 	public boolean hasLetter(String s) {
 		boolean letter = false;
-
-		//if (s != null && !s.isEmpty()) {
 		for (char c : s.toCharArray()) {
 			if (letter = Character.isLetter(c)) {
 				break;
 			}
 		}
-		//}
-
 		return letter;
 	}
 }

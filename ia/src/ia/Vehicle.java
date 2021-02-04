@@ -11,6 +11,7 @@ public class Vehicle {
 	String owner;
 	String status;
 	String user;
+	String location;
 	
 	public String getPlate() {
 		return plate;
@@ -71,5 +72,11 @@ public class Vehicle {
 	}
 	public void setUser(String user) {
 		this.user = user;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
 	}
 }

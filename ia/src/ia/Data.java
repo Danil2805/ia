@@ -8,27 +8,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
 
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import com.google.gson.Gson;
 
 public class Data {
-	/*public static void main(String[] args) {
-		
-		Data data = new Data();
-		Vehicle v = new Vehicle();
-		v.setPlate("WY021X");
-		v.setBrand("Opel");
-		data.addVehicle(v);
-		data.saveData("C:\\\\Users\\\\danil\\\\Documents\\\\!school\\\\CS IA\\\\saving1.json");
-		
-		Data data2 = new Data();
-		data2.loadData("C:\\\\Users\\\\danil\\\\Documents\\\\!school\\\\CS IA\\\\saving1.json");
-		data2.saveData("C:\\\\Users\\\\danil\\\\Documents\\\\!school\\\\CS IA\\\\saving2.json");
-		
-	}
-	*/
 	private static ArrayList<Vehicle> vehicles = new ArrayList<>();
+	static Vehicle selectedv;
 	Data() {
 	}
 	public static void saveData(String filename) {
@@ -57,10 +44,23 @@ public class Data {
 			e.printStackTrace();
 		}
 	}
-	
 	public static void addVehicle(Vehicle vehicle) {
 		vehicles.add(vehicle);
 	}
+	public static int getNumVehicles() {
+		return vehicles.size();
+	}
+	public static Vehicle getVehicle(int index) {
+		return vehicles.get(index);
+	}
+	public static void removeVehicle(Vehicle v) {
+		vehicles.remove(v);
+	}
+	public static void setSelectedVehicle(JTable table) {
+		selectedv = getVehicle(table.getSelectedRow());
+	}
+	public static Vehicle getSelectedVehicle() {
+		return selectedv;
+	}
 
 }
-
